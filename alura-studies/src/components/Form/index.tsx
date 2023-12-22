@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Button from "../Button";
 import style from "./Form.module.scss";
 import ITasks from "../../types/tasks";
+import {v4 as uuidv4 } from 'uuid';
 
 function Form({setTasks}:{setTasks: React.Dispatch<React.SetStateAction<ITasks[]>>;})
  {
@@ -12,7 +13,20 @@ function Form({setTasks}:{setTasks: React.Dispatch<React.SetStateAction<ITasks[]
 
   function addTask(event: React.FormEvent<HTMLFormElement>) {
     event?.preventDefault();
-    setTasks((oldTasks) => [...oldTasks, { ...state }]);
+    setTasks((oldTasks) => 
+    [
+      ...oldTasks, 
+      { 
+        ...state,
+        selected: false,
+        completed: false,
+        id: uuidv4() 
+      }
+    ]);
+    setState({
+      task: "",
+      time: "00:00"
+    })
   }
     return (
       <form className={style.novaTarefa} onSubmit={addTask}>
