@@ -7,10 +7,21 @@ import style from "./Timer.module.scss";
 
 interface Props {
   selected: ITasks | undefined;
+  endTask: () => void;
 }
 
-export default function Timer({ selected }: Props) {
+export default function Timer({ selected, endTask }: Props) {
   const [time, setTime] = useState<number>();
+
+  function regressive(counter: number = 0) {
+    setTimeout(() => {
+      if (counter > 0) {
+        setTime(counter - 1);
+        return regressive(counter - 1);
+      }
+      endTask();
+    }, 1000);
+  }
 
   useEffect(() => {
     if (selected?.time) {
@@ -24,7 +35,7 @@ export default function Timer({ selected }: Props) {
       <div className={style.relogioWrapper}>
         <Clock time={time} />
       </div>
-      <Button text="Começar" />
+      <Button text="Começar" onClick={() => regressive(time)} />
     </div>
   );
 }
