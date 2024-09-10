@@ -11,13 +11,19 @@ function App() {
 
   function selectTask(taskSelected: ITasks) {
     setSelected(taskSelected);
+    setTasks((oldtasks) =>
+      oldtasks.map((task) => ({
+        ...task,
+        selected: task.id === taskSelected.id ? true : false,
+      }))
+    );
   }
 
   return (
     <div className={style.AppStyle}>
       <Form setTasks={setTasks} />
       <List tasks={tasks} selectTask={selectTask} />
-      <Timer />
+      <Timer selected={selected} />
     </div>
   );
 }
