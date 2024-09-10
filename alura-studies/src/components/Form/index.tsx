@@ -1,11 +1,14 @@
-import React, {useState} from "react";
-import Button from "../Button";
+import React, { useState } from "react";
+import Button from "../button";
 import style from "./Form.module.scss";
 import ITasks from "../../types/tasks";
-import {v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-function Form({setTasks}:{setTasks: React.Dispatch<React.SetStateAction<ITasks[]>>;})
- {
+function Form({
+  setTasks,
+}: {
+  setTasks: React.Dispatch<React.SetStateAction<ITasks[]>>;
+}) {
   const [state, setState] = useState({
     task: "",
     time: "00:00",
@@ -13,56 +16,51 @@ function Form({setTasks}:{setTasks: React.Dispatch<React.SetStateAction<ITasks[]
 
   function addTask(event: React.FormEvent<HTMLFormElement>) {
     event?.preventDefault();
-    setTasks((oldTasks) => 
-    [
-      ...oldTasks, 
-      { 
+    setTasks((oldTasks) => [
+      ...oldTasks,
+      {
         ...state,
         selected: false,
         completed: false,
-        id: uuidv4() 
-      }
+        id: uuidv4(),
+      },
     ]);
     setState({
       task: "",
-      time: "00:00"
-    })
+      time: "00:00",
+    });
   }
-    return (
-      <form className={style.novaTarefa} onSubmit={addTask}>
-        <div className={style.inputContainer}>
-          <label htmlFor="tarefa">Adicione um novo Estudo</label>
-          <input
-            type="text"
-            name="tarefa"
-            value={state.task}
-            onChange={(event) =>
-              setState({ ...state, task: event.target.value })
-            } //pegando o valor do input e armazenando
-            id="tarefa"
-            placeholder="O que você quer estudar?"
-            required
-          />
-        </div>
-        <div className={style.inputContainer}>
-          <label htmlFor="tempo">Tempo</label>
-          <input
-            type="time"
-            step="1"
-            name="tempo"
-            value={state.time}
-            onChange={(event) =>
-              setState({ ...state, time: event.target.value })
-            } //pegando o valor do input e armazenando
-            id="tempo"
-            min="00:00:00"
-            max="01:30:00"
-            required
-          />
-        </div>
-        <Button text="Adicionar" type="submit" />
-      </form>
-    );
-  }
+  return (
+    <form className={style.novaTarefa} onSubmit={addTask}>
+      <div className={style.inputContainer}>
+        <label htmlFor="tarefa">Adicione um novo Estudo</label>
+        <input
+          type="text"
+          name="tarefa"
+          value={state.task}
+          onChange={(event) => setState({ ...state, task: event.target.value })} //pegando o valor do input e armazenando
+          id="tarefa"
+          placeholder="O que você quer estudar?"
+          required
+        />
+      </div>
+      <div className={style.inputContainer}>
+        <label htmlFor="tempo">Tempo</label>
+        <input
+          type="time"
+          step="1"
+          name="tempo"
+          value={state.time}
+          onChange={(event) => setState({ ...state, time: event.target.value })} //pegando o valor do input e armazenando
+          id="tempo"
+          min="00:00:00"
+          max="01:30:00"
+          required
+        />
+      </div>
+      <Button text="Adicionar" type="submit" />
+    </form>
+  );
+}
 
 export default Form;
